@@ -72,13 +72,13 @@ jobs:
             --site "${{ steps.pages.outputs.origin }}" \
             --base "${{ steps.pages.outputs.base_path }}"
         working-directory: ${{ env.BUILD_PATH }}
+      - name: Test the site
+        run: |
+          ${{ steps.detect-package-manager.outputs.runner }} run validate \   
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ env.BUILD_PATH }}/dist
-      - name: Test the site
-        run: |
-          ${{ steps.detect-package-manager.outputs.runner }} run validate \   
   deploy:
     environment:
       name: github-pages
