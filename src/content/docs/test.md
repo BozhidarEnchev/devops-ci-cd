@@ -16,5 +16,3 @@ tags: ["мн як тест", "тест"]
 ```python
 print("Hello world")
 ```
-
-## Списък
