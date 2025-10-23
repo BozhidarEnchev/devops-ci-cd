@@ -3,7 +3,8 @@ run-name: Test Run name
 on: [push]
 jobs:
   test:
+    runs-on: ubuntu-latest
     name: Test job
     steps:
-      - run: echo "TEST"
-      - run: echo "TEST"
+      - run: echo "TEST 1"
+      - run: echo "TEST 2"
