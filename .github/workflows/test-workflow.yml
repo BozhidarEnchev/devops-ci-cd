@@ -1,6 +1,10 @@
 name: Test Workflow
 run-name: Test Run name
 on: [push]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -18,8 +22,9 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
-  node:
+  node-test:
     runs-on: ubuntu-latest
+    name: Test Node
     strategy:
       matrix:
         node-version: ['18.x', '20.x']
@@ -32,3 +37,16 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+  
+  deploy:
+    needs: node-test
+    name: Deployment
+    runs-on: ubuntu-latest
+    concurrency: production
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
